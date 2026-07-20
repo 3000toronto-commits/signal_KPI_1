@@ -1,0 +1,438 @@
+<section class="fd-signal-flip" aria-label="Сравнение обычного KPI и сигнального показателя">
+  <style>
+    .fd-signal-flip,
+    .fd-signal-flip * {
+      box-sizing: border-box;
+    }
+
+    .fd-signal-flip {
+      --fd-primary: #77408C;
+      --fd-primary-dark: #5F2F72;
+      --fd-light: #EDE0F3;
+      --fd-border: #D9C7E4;
+      --fd-text: #2A2A2A;
+      --fd-muted: #666666;
+      --fd-white: #FFFFFF;
+      --fd-olive: #8A8F56;
+      --fd-olive-dark: #707545;
+      --fd-olive-light: #F2F3E8;
+
+      width: 100%;
+      max-width: 757px;
+      margin: 0 auto;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--fd-text);
+    }
+
+    .fd-signal-flip__wrap {
+      overflow: hidden;
+      background: linear-gradient(180deg, #F8F4FA 0%, #FFFFFF 100%);
+      border: 1px solid var(--fd-border);
+      border-radius: 22px;
+      box-shadow: 0 16px 38px rgba(119, 64, 140, 0.12);
+    }
+
+    .fd-signal-flip__header {
+      padding: 18px 20px;
+      background: linear-gradient(135deg, var(--fd-primary), var(--fd-primary-dark));
+    }
+
+    .fd-signal-flip__title {
+      margin: 0;
+      color: #fff;
+      font-size: 16px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .fd-signal-flip__body {
+      padding: 20px 20px 22px;
+      background: #fff;
+    }
+
+    .fd-signal-flip__note {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 0 0 20px;
+      padding: 18px 20px;
+      background: var(--fd-olive-light);
+      border: 1px solid rgba(138, 143, 86, 0.28);
+      border-left: 6px solid var(--fd-olive);
+      border-radius: 18px;
+    }
+
+    .fd-signal-flip__note-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      color: #fff;
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 700;
+      font-style: italic;
+      background: var(--fd-olive);
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    .fd-signal-flip__note-text {
+      margin: 0;
+      color: #4A4A4A;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .fd-signal-flip__cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .fd-signal-flip__card {
+      position: relative;
+      display: block;
+      min-height: 330px;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      perspective: 1100px;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+    }
+
+    .fd-signal-flip__card:focus {
+      outline: none;
+    }
+
+    .fd-signal-flip__card:focus-visible .fd-signal-flip__face {
+      box-shadow: 0 0 0 3px rgba(119, 64, 140, 0.22), 0 10px 24px rgba(119, 64, 140, 0.10);
+    }
+
+    .fd-signal-flip__card-inner {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 330px;
+      min-height: 330px;
+      transition: transform 0.65s ease;
+      transform-style: preserve-3d;
+    }
+
+    .fd-signal-flip__card.is-flipped .fd-signal-flip__card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .fd-signal-flip__face {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--fd-border);
+      border-radius: 18px;
+      box-shadow: 0 10px 24px rgba(119, 64, 140, 0.10);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .fd-signal-flip__face--back {
+      transform: rotateY(180deg);
+    }
+
+    .fd-signal-flip__top {
+      position: relative;
+      min-height: 88px;
+      padding: 16px 48px 16px 16px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--fd-olive), var(--fd-olive-dark));
+      flex: 0 0 auto;
+    }
+
+    .fd-signal-flip__sign {
+      display: block;
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .fd-signal-flip__flip-icon {
+      position: absolute;
+      top: 13px;
+      right: 13px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      color: var(--fd-primary);
+      font-size: 17px;
+      line-height: 1;
+      font-weight: 700;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    }
+
+    .fd-signal-flip__content {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      padding: 18px 16px 54px;
+      background: #fff;
+    }
+
+    .fd-signal-flip__label {
+      display: block;
+      margin: 0 0 11px;
+      color: var(--fd-primary);
+      font-size: 13px;
+      line-height: 1.2;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .fd-signal-flip__label--signal {
+      color: var(--fd-primary-dark);
+    }
+
+    .fd-signal-flip__text {
+      display: block;
+      margin: 0;
+      color: var(--fd-text);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .fd-signal-flip__bottom-hint {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--fd-muted);
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .fd-signal-flip__bottom-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      color: #fff;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 700;
+      background: var(--fd-primary);
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    .fd-signal-flip__face--back .fd-signal-flip__bottom-icon {
+      background: var(--fd-olive);
+    }
+
+    @media (max-width: 767px) {
+      .fd-signal-flip__header {
+        padding: 15px 16px;
+      }
+
+      .fd-signal-flip__body {
+        padding: 16px;
+      }
+
+      .fd-signal-flip__note {
+        padding: 14px 16px;
+      }
+
+      .fd-signal-flip__note-text {
+        font-size: 13px;
+      }
+
+      .fd-signal-flip__cards {
+        grid-template-columns: 1fr;
+      }
+
+      .fd-signal-flip__card,
+      .fd-signal-flip__card-inner {
+        height: 260px;
+        min-height: 260px;
+      }
+    }
+  </style>
+
+  <div class="fd-signal-flip__wrap">
+    <div class="fd-signal-flip__header">
+      <h3 class="fd-signal-flip__title">Сравните обычный KPI и сигнальный показатель</h3>
+    </div>
+
+    <div class="fd-signal-flip__body">
+      <div class="fd-signal-flip__note">
+        <div class="fd-signal-flip__note-icon">i</div>
+        <p class="fd-signal-flip__note-text">
+          Не каждый KPI подходит для кризис-панели. В нее стоит включать только те показатели,
+          которые заранее предупреждают о риске и помогают принять решение
+        </p>
+      </div>
+
+      <div class="fd-signal-flip__cards">
+        <button class="fd-signal-flip__card" type="button" aria-label="Перевернуть карточку: когда показывает проблему">
+          <span class="fd-signal-flip__card-inner">
+            <span class="fd-signal-flip__face">
+              <span class="fd-signal-flip__top">
+                <span class="fd-signal-flip__sign">Когда показывает проблему</span>
+                <span class="fd-signal-flip__flip-icon" aria-hidden="true">↻</span>
+              </span>
+
+              <span class="fd-signal-flip__content">
+                <span class="fd-signal-flip__label">Обычный KPI</span>
+                <span class="fd-signal-flip__text">
+                  Фиксирует результат, который уже случился: продажи, выпуск, прибыль, расходы или просрочку.
+                </span>
+              </span>
+
+              <span class="fd-signal-flip__bottom-hint">
+                <span class="fd-signal-flip__bottom-icon">↻</span>
+                Нажмите, чтобы перевернуть
+              </span>
+            </span>
+
+            <span class="fd-signal-flip__face fd-signal-flip__face--back">
+              <span class="fd-signal-flip__top">
+                <span class="fd-signal-flip__sign">Когда показывает проблему</span>
+                <span class="fd-signal-flip__flip-icon" aria-hidden="true">↻</span>
+              </span>
+
+              <span class="fd-signal-flip__content">
+                <span class="fd-signal-flip__label fd-signal-flip__label--signal">Сигнальный показатель</span>
+                <span class="fd-signal-flip__text">
+                  Меняется раньше финансового результата и заранее предупреждает о будущем отклонении.
+                </span>
+              </span>
+
+              <span class="fd-signal-flip__bottom-hint">
+                <span class="fd-signal-flip__bottom-icon">↻</span>
+                Нажмите, чтобы вернуться
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button class="fd-signal-flip__card" type="button" aria-label="Перевернуть карточку: как связан с итогом года">
+          <span class="fd-signal-flip__card-inner">
+            <span class="fd-signal-flip__face">
+              <span class="fd-signal-flip__top">
+                <span class="fd-signal-flip__sign">Как связан с итогом года</span>
+                <span class="fd-signal-flip__flip-icon" aria-hidden="true">↻</span>
+              </span>
+
+              <span class="fd-signal-flip__content">
+                <span class="fd-signal-flip__label">Обычный KPI</span>
+                <span class="fd-signal-flip__text">
+                  Показывает, выполнило ли подразделение свой план или норматив. Не всегда объясняет, что будет с итогом года.
+                </span>
+              </span>
+
+              <span class="fd-signal-flip__bottom-hint">
+                <span class="fd-signal-flip__bottom-icon">↻</span>
+                Нажмите, чтобы перевернуть
+              </span>
+            </span>
+
+            <span class="fd-signal-flip__face fd-signal-flip__face--back">
+              <span class="fd-signal-flip__top">
+                <span class="fd-signal-flip__sign">Как связан с итогом года</span>
+                <span class="fd-signal-flip__flip-icon" aria-hidden="true">↻</span>
+              </span>
+
+              <span class="fd-signal-flip__content">
+                <span class="fd-signal-flip__label fd-signal-flip__label--signal">Сигнальный показатель</span>
+                <span class="fd-signal-flip__text">
+                  Показывает, что именно окажется под угрозой: выручка, маржа, денежный поток или выполнение проекта.
+                </span>
+              </span>
+
+              <span class="fd-signal-flip__bottom-hint">
+                <span class="fd-signal-flip__bottom-icon">↻</span>
+                Нажмите, чтобы вернуться
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button class="fd-signal-flip__card" type="button" aria-label="Перевернуть карточку: какое действие запускает показатель">
+          <span class="fd-signal-flip__card-inner">
+            <span class="fd-signal-flip__face">
+              <span class="fd-signal-flip__top">
+                <span class="fd-signal-flip__sign">Какое действие запускает показатель</span>
+                <span class="fd-signal-flip__flip-icon" aria-hidden="true">↻</span>
+              </span>
+
+              <span class="fd-signal-flip__content">
+                <span class="fd-signal-flip__label">Обычный KPI</span>
+                <span class="fd-signal-flip__text">
+                  Помогает оценить, выполнило ли подразделение план или норматив. Отклонение не всегда требует решения за пределами подразделения.
+                </span>
+              </span>
+
+              <span class="fd-signal-flip__bottom-hint">
+                <span class="fd-signal-flip__bottom-icon">↻</span>
+                Нажмите, чтобы перевернуть
+              </span>
+            </span>
+
+            <span class="fd-signal-flip__face fd-signal-flip__face--back">
+              <span class="fd-signal-flip__top">
+                <span class="fd-signal-flip__sign">Какое действие запускает показатель</span>
+                <span class="fd-signal-flip__flip-icon" aria-hidden="true">↻</span>
+              </span>
+
+              <span class="fd-signal-flip__content">
+                <span class="fd-signal-flip__label fd-signal-flip__label--signal">Сигнальный показатель</span>
+                <span class="fd-signal-flip__text">
+                  Помогает понять причину риска и выбрать действие: что исправить, ускорить, пересчитать или вынести на решение собственника.
+                </span>
+              </span>
+
+              <span class="fd-signal-flip__bottom-hint">
+                <span class="fd-signal-flip__bottom-icon">↻</span>
+                Нажмите, чтобы вернуться
+              </span>
+            </span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var scripts = document.getElementsByTagName('script');
+      var currentScript = scripts[scripts.length - 1];
+      var root = currentScript.closest ? currentScript.closest('.fd-signal-flip') : null;
+
+      if (!root) {
+        root = document.querySelector('.fd-signal-flip');
+      }
+
+      if (!root) return;
+
+      root.addEventListener('click', function (event) {
+        var card = event.target.closest('.fd-signal-flip__card');
+        if (!card || !root.contains(card)) return;
+
+        card.classList.toggle('is-flipped');
+      });
+    })();
+  </script>
+</section>
