@@ -85,25 +85,55 @@
       line-height: 1.45;
     }
 
-    .fd-signal-flip__cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
+    .fd-signal-flip .fd-signal-flip__cards {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  gap: 14px !important;
+  direction: ltr !important;
+  writing-mode: horizontal-tb !important;
+  align-items: stretch !important;
+}
 
-    .fd-signal-flip__card {
-      position: relative;
-      display: block;
-      min-height: 330px;
-      padding: 0;
-      background: transparent;
-      border: 0;
-      perspective: 1100px;
-      cursor: pointer;
-      font-family: inherit;
-      text-align: left;
-    }
+    .fd-signal-flip .fd-signal-flip__card {
+  position: relative !important;
+  display: block !important;
+  min-height: 330px;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  perspective: 1100px;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif !important;
+  text-align: left !important;
+  direction: ltr !important;
+  writing-mode: horizontal-tb !important;
+  appearance: none;
+  -webkit-appearance: none;
+}
 
+.fd-signal-flip .fd-signal-flip__card:nth-child(1) {
+  order: 1;
+}
+
+.fd-signal-flip .fd-signal-flip__card:nth-child(2) {
+  order: 2;
+}
+
+.fd-signal-flip .fd-signal-flip__card:nth-child(3) {
+  order: 3;
+}
+
+.fd-signal-flip .fd-signal-flip__card-inner,
+.fd-signal-flip .fd-signal-flip__face,
+.fd-signal-flip .fd-signal-flip__top,
+.fd-signal-flip .fd-signal-flip__content {
+  writing-mode: horizontal-tb !important;
+  direction: ltr !important;
+}
+    
     .fd-signal-flip__card:focus {
       outline: none;
     }
